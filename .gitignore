@@ -1,0 +1,17 @@
+# 機密設定（絕對不要進版控）
+config.json
+
+# 暫存與輸出
+screenshots/
+*.log
+sessions/
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# 系統
+.DS_Store
+Thumbs.db
