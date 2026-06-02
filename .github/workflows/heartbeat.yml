@@ -1,0 +1,31 @@
+name: 每日心跳
+
+on:
+  # 每天台灣時間 08:00 發一則 LINE 報平安
+  # cron 使用 UTC，台灣 08:00 = UTC 00:00
+  schedule:
+    - cron: "0 0 * * *"
+  # 保留手動觸發，方便測試
+  workflow_dispatch:
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安裝 requests
+        run: pip install requests
+
+      - name: 發送每日心跳
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+        run: python heartbeat.py
